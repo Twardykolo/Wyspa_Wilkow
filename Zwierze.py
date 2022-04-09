@@ -5,6 +5,7 @@ class Zwierze:
     czyZyje=True
     zasiegWidzenia=5
     pole=None
+    dict_zwierz=None
 
     def __init__(self,plec,zasiegWidzenia):
         self.plec=plec
@@ -18,8 +19,14 @@ class Zwierze:
     def gdzieJest(self):
         return self.pole
 
-    #TODO: ruch zwierzów
+
     def ruchZwierza(self, pole):
         self.pole.wyskocz(self)
         pole.wskocz(self)
-        print("ide sie ruszyc")
+
+    #TODO: ZROBIĆ DICTIONARY DO PATRZENIA W POLA NA BAZIE REKURENCJI
+    def patrze(self):
+        self.gdzieJest()
+
+
+
