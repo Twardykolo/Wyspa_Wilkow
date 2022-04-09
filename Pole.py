@@ -8,17 +8,24 @@ class Pole:
     x=0
     y=0
     stan=0
-    zwierzeta=[]
+    zwierzeta=None
+    poleZLewej=None
+    poleZPrawej=None
+    poleZGory=None
+    poleZDolu=None
+
     def __init__(self,x,y):
         self.x=x
         self.y=y
         self.stan=choice(mozliweStany)
+        self.zwierzeta=[]
 
     def __str__(self):
-        return "x="+str(self.x)+"\ty="+str(self.y)+"\t stan="+self.stan
+        return "x="+str(self.x)+"\ty="+str(self.y)+"\t stan="+self.stan+"\n"+\
+            "Zwierzeta na polu: "+str(self.zwierzeta)+"\n"\
+            "poleZLewej="+str(self.poleZLewej)+"\n"
 
     def coSieDziejeNaPolu(self):
-        print(self.zwierzeta)
         ileWilkow=0
         ileWilczyc=0
         ileZajecy=0
@@ -40,7 +47,6 @@ class Pole:
 
         print("\nWilków:"+str(ileWilkow)+"\nZajęcy:"+str(ileZajecy))
         while(ileZajecy>0 and ileWilkow>0):
-            #TODO: wilki zeżerajom zająca
             wilk=None
             zajac=None
             for zwierze in self.zwierzeta:
