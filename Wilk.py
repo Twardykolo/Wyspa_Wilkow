@@ -15,7 +15,6 @@ class Wilk(Zwierze):
         pass
 
     def zezera(self, zajac):
-        #TODO: we to napraw
         print("*Kłap kłap*")
         self.poziomTluszczu += 10
         zajac.__del__()
