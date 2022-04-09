@@ -70,3 +70,10 @@ class Pole:
 
     def wskocz(self,zwierz):
         self.zwierzeta.append(zwierz)
+        zwierz.gdzieJestem(self)
+        print("!skoczyłem")
+
+    def wyskocz(self, zwierz):
+        self.zwierzeta.remove(zwierz)
+        zwierz.gdzieJestem(None)
+        print("wyskczylesm")
