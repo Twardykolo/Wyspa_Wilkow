@@ -14,9 +14,14 @@ class Wilk(Zwierze):
         # print("Wilk też umarł")
         pass
 
+    def __str__(self):
+        return "Poziom tłuszczu wilka: " + str(self.poziomTluszczu)
+
     def zezera(self, zajac):
         print("*Kłap kłap*")
         self.poziomTluszczu += 10
         zajac.__del__()
 
-    # TODO:Ruch ze spadaniem tłuszczu
+    def ruchZwierza(self, pole):
+        self.poziomTluszczu -= 5
+        super().ruchZwierza(pole)
