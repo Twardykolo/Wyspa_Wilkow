@@ -25,6 +25,10 @@ class Pole:
             "Zwierzeta na polu: "+str(self.zwierzeta)+"\n"\
             "poleZLewej="+str(self.poleZLewej)+"\n"
 
+    #Zwraca tablicę ze zwierzętami znajdującymi się na polu
+    def jakieZwierzetaNaPolu(self):
+        return self.zwierzeta
+
     def coSieDziejeNaPolu(self):
         ileWilkow=0
         ileWilczyc=0
