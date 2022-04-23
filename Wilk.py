@@ -1,27 +1,31 @@
 from random import choice
 from Zwierze import Zwierze, dostepnePlci
-from Zajac import Zajac
 
 
 class Wilk(Zwierze):
     poziomTluszczu = 100
 
-    def __init__(self, zasiegWidzenia, plec=choice(dostepnePlci)):
+    def __init__(self, zasiegWidzenia, plec=None):
+        if plec == None:
+            plec = choice(dostepnePlci)
         Zwierze.__init__(self, plec, zasiegWidzenia)
+        print(plec)
 
+    # ZDECHNIĘCIE WILKA
     def __del__(self):
-        # TODO:Zdycha
-        # print("Wilk też umarł")
-        pass
+        super().__del__()
 
     def __str__(self):
         return "Poziom tłuszczu wilka: " + str(self.poziomTluszczu)
 
+    # ZJEDZENIE ZAJĄCA
     def zezera(self, zajac):
-        print("*Kłap kłap*")
         self.poziomTluszczu += 10
         zajac.__del__()
 
+    # PORUSZANIE SIĘ (spalanie tłuszczu przy ruchu)
     def ruchZwierza(self, pole):
         self.poziomTluszczu -= 5
         super().ruchZwierza(pole)
+
+    #TODO: LOGIKA PORUSZANIA SIE

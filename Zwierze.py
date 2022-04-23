@@ -1,34 +1,49 @@
 from WidokPola import WidokPola
-dostepnePlci=("M","F")
+
+dostepnePlci = ("M", "F")
+
 
 class Zwierze:
-    plec="M"
-    czyZyje=True
-    zasiegWidzenia=5
-    pole=None
-    arr_zwierz=None
+    plec = "M"
+    czyZyje = True
+    zasiegWidzenia = 5
+    pole = None
+    arr_zwierz = None
 
-    def __init__(self,plec,zasiegWidzenia):
+    def __init__(self, plec, zasiegWidzenia):
         self.plec = plec
         self.zasiegWidzenia = zasiegWidzenia
 
-    #setter
-    def gdzieJestem(self, pole):
-        self.pole=pole
+    # ZDECHNIĘCIE ZWIERZA
+    def __del__(self):
+        self.czyZyje = False
+        if self.pole:
+            self.pole.zwierzeta.remove(self)
+        self.pole = None
 
-    #getter
+    # setter
+    def gdzieJestem(self, pole):
+        self.pole = pole
+
+    # getter
     def gdzieJest(self):
         return self.pole
 
-    #FUNKCJA ODPOWIEDZIALNA ZA PRZESKOK Z POLA NA POLE
+    # FUNKCJA ODPOWIEDZIALNA ZA PRZESKOK Z POLA NA POLE
     def ruchZwierza(self, pole):
-        self.pole.wyskocz(self)
-        pole.wskocz(self)
+        if self.czyZyje:
+            self.pole.wyskocz(self)
+            pole.wskocz(self)
 
-    #FUNKCJA ODPOWIEDZIALNA ZA ROZPOZNAWANIE
-    #ZWIERZĄT W ZASIĘGU WIDZENIA
+    #TODO: LOGIKA PORUSZANIA SIE
+
+    # FUNKCJA ODPOWIEDZIALNA ZA ROZPOZNAWANIE
+    # ZWIERZĄT W ZASIĘGU WIDZENIA
     def patrze(self):
-        here = self.gdzieJest() #pole
+        if not self.czyZyje:
+            return
+
+        here = self.gdzieJest()  # pole
         self.arr_zwierz = []
 
         # WIDOK W LEWO
