@@ -9,6 +9,7 @@ class Zwierze:
     zasiegWidzenia = 5
     pole = None
     arr_zwierz = None
+    poziomTluszczu = 100
 
     def __init__(self, plec, zasiegWidzenia):
         self.plec = plec
@@ -92,3 +93,6 @@ class Zwierze:
 
         for widok in self.arr_zwierz:
             print(str(widok))
+
+    def zezera(self):
+        pass

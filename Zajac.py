@@ -3,6 +3,7 @@ from Zwierze import Zwierze, dostepnePlci
 
 
 class Zajac(Zwierze):
+
     def __init__(self, zasiegWidzenia, plec=None):
         if plec == None:
             plec = choice(dostepnePlci)
@@ -12,4 +13,14 @@ class Zajac(Zwierze):
     def __del__(self):
         super().__del__()
 
-    #TODO: LOGIKA PORUSZANIA SIE
+    def zezera(self, ileZajecy):
+        self.poziomTluszczu += 10 / ileZajecy
+
+        super().zezera()
+
+    # PORUSZANIE SIĘ (spalanie tłuszczu przy ruchu)
+    def ruchZwierza(self, pole):
+        self.poziomTluszczu -= 3
+        super().ruchZwierza(pole)
+
+    # TODO: LOGIKA PORUSZANIA SIE

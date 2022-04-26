@@ -3,7 +3,6 @@ from Zwierze import Zwierze, dostepnePlci
 
 
 class Wilk(Zwierze):
-    poziomTluszczu = 100
 
     def __init__(self, zasiegWidzenia, plec=None):
         if plec == None:
@@ -22,10 +21,11 @@ class Wilk(Zwierze):
     def zezera(self, zajac):
         self.poziomTluszczu += 10
         zajac.__del__()
+        super.zezera()
 
     # PORUSZANIE SIĘ (spalanie tłuszczu przy ruchu)
     def ruchZwierza(self, pole):
         self.poziomTluszczu -= 5
         super().ruchZwierza(pole)
 
-    #TODO: LOGIKA PORUSZANIA SIE
+    #TODO: LOGIKA (cały algorytm) PORUSZANIA SIE
