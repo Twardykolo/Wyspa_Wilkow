@@ -2,8 +2,7 @@ import random
 
 mozliweStany = ["Trawa", "Pustynia"]
 from random import choice
-from Wilk import Wilk
-from Zajac import Zajac
+from Zwierze import *
 
 
 class Pole:
@@ -25,7 +24,7 @@ class Pole:
     def __str__(self):
         return "x=" + str(self.x) + "\ty=" + str(self.y) + "\t stan=" + self.stan + "\n" + \
                "Zwierzeta na polu: " + str(self.zwierzeta) + "\n" \
-
+ \
     # Zwraca tablicę ze zwierzętami znajdującymi się na polu
     def jakieZwierzetaNaPolu(self):
         return self.zwierzeta
@@ -56,10 +55,12 @@ class Pole:
         # ZJADANIE TRAWY
         self.zjadanieTrawy(ileWilkow, ileZajecy)
 
-        # ODRASTANIE TRAWY
-        if(random.random() % 17 == 0 and self.stan == "Pustynia"):
-            self.stan = "Trawa"
+        for zwierze in self.zwierzeta:
+            zwierze.wykonajRuch()
 
+        # ODRASTANIE TRAWY
+        if (random.random() % 17 == 0 and self.stan == "Pustynia"):
+            self.stan = "Trawa"
 
     def zjadanieTrawy(self, ileWilkow, ileZajecy):
         zajac = None
