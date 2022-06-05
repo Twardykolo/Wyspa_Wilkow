@@ -50,4 +50,4 @@ class Cel:
 
     def __str__(self):
         return "Koszt: " + str(self.koszt) + \
-               "\nSciezka do celu: " + str(self.sciezkaDo)
+               "\nSciezka do celu: " + str(self.sciezkaDo) + "\nNastępny ruch: " + str(self.sciezkaDo)

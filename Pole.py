@@ -1,7 +1,6 @@
 import random
 
 mozliweStany = ["Trawa", "Pustynia"]
-from random import choice
 from Zwierze import *
 
 
@@ -22,12 +21,33 @@ class Pole:
         self.zwierzeta = []
 
     def __str__(self):
+        # return "x=" + str(self.x) + "\ty=" + str(self.y) + "\t stan=" + self.stan + "\n" + \
+        #        "Zwierzeta na polu: " + str(self.zwierzeta) + "\n"
+        wynik = " "
+        for zwierz in self.zwierzeta:
+            if isinstance(zwierz, Wilk):
+                if zwierz.plec == "M":
+                    wynik += "wm"
+                else:
+                    wynik += "wf"
+            elif isinstance(zwierz, Zajac):
+                if zwierz.plec == "M":
+                    wynik += "zm"
+                else:
+                    wynik += "zf"
+        return wynik
+
+    def danePola(self):
         return "x=" + str(self.x) + "\ty=" + str(self.y) + "\t stan=" + self.stan + "\n" + \
-               "Zwierzeta na polu: " + str(self.zwierzeta) + "\n" \
- \
+               "Zwierzeta na polu: " + str(self.zwierzeta) + "\n"
+
     # Zwraca tablicę ze zwierzętami znajdującymi się na polu
     def jakieZwierzetaNaPolu(self):
         return self.zwierzeta
+
+    def rysowanko(self,spriteGroup):
+
+        pass
 
     def coSieDziejeNaPolu(self):
         ileWilkow = 0
@@ -37,8 +57,6 @@ class Pole:
 
         ileWilczyc, ileWilkow, ileZajecy, ileZajeczyc = self.zliczanieZwierzat(ileWilczyc, ileWilkow, ileZajecy,
                                                                                ileZajeczyc)
-
-        print("\nWilków:" + str(ileWilkow) + "\nZajęcy:" + str(ileZajecy))
 
         # ZEŻERANIE ZAJĄCA
         ileZajecy = self.czyZezeracZajaca(ileWilkow, ileZajecy)
@@ -54,9 +72,6 @@ class Pole:
 
         # ZJADANIE TRAWY
         self.zjadanieTrawy(ileWilkow, ileZajecy)
-
-        for zwierze in self.zwierzeta:
-            zwierze.wykonajRuch()
 
         # ODRASTANIE TRAWY
         if (random.random() % 17 == 0 and self.stan == "Pustynia"):
@@ -158,3 +173,18 @@ class Pole:
     def wyskocz(self, zwierz):
         self.zwierzeta.remove(zwierz)
         zwierz.gdzieJestem(None)
+
+    def wykonajRuchyZwierzat(self):
+        # for zwierze in self.zwierzeta:
+        #     zwierze.wykonajRuch()
+        pass
+
+    def wilki(self):
+        for zwierze in self.zwierzeta:
+            if isinstance(zwierze,Wilk):
+                zwierze.wykonajRuch()
+
+    def zajace(self):
+        for zwierze in self.zwierzeta:
+            if isinstance(zwierze,Zajac):
+                zwierze.wykonajRuch()

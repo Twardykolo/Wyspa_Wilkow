@@ -6,6 +6,6 @@ class WidokPola:
         self.pole = pole
         self.zwierzetaNaPolu = zwierzetaNaPolu
 
-    def __str__(self):
-        return "Pole: " + str(self.pole.x) + ", " + str(self.pole.y) + ":\n" + \
-               str(self.zwierzetaNaPolu)
+    # def __str__(self):
+    #     return "Pole: " + str(self.pole.x) + ", " + str(self.pole.y) + ":\n" + \
+    #            str(self.zwierzetaNaPolu)

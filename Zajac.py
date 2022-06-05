@@ -30,8 +30,6 @@ class Zajac(Zwierze):
 
     # PATRZENIE CZY ROŚNIE TRAWA NA POLU
     def patrze(self):
-        print("NIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCH")
-
         super().patrze()
         here = self.gdzieJest()
         self.arr_trawa = []
@@ -81,7 +79,6 @@ class Zajac(Zwierze):
         for widok in self.arr_trawa:
             print(str(widok))
 
-        print("NIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCH2")
         pass
 
     # TODO: LOGIKA PORUSZANIA SIE

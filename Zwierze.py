@@ -1,10 +1,21 @@
 from WidokPola import WidokPola
 from random import choice
 from Cel import Cel
+import pygame
+
 dostepnePlci = ("M", "F")
 
 
-class Zwierze:
+class Tile(pygame.sprite.Sprite):
+    def __int__(self, pos, size):
+        super().__init__()
+        self.image = pygame.Surface((size, size))
+        self.image.fill('red')
+        self.rect = self.image.get_rect(topleft=pos)
+        pass
+
+
+class Zwierze(Tile):
     plec = "M"
     czyZyje = True
     zasiegWidzenia = 5
@@ -16,13 +27,18 @@ class Zwierze:
     def __init__(self, plec, zasiegWidzenia):
         self.plec = plec
         self.zasiegWidzenia = zasiegWidzenia
+        super().__init__()
+
+    # def pygameInit(self):
+    #     if self.pole:
+    #         super().__init__((self.pole.x,self.pole.y),32)
 
     # ZDECHNIĘCIE ZWIERZA
     def __del__(self):
         self.czyZyje = False
+        # self.kill()
         if self.pole:
-            self.pole.zwierzeta.remove(self)
-        self.pole = None
+            self.pole.wyskocz(self)
 
     # setter
     def gdzieJestem(self, pole):
@@ -38,15 +54,13 @@ class Zwierze:
             self.pole.wyskocz(self)
             pole.wskocz(self)
 
-    # TODO: LOGIKA PORUSZANIA SIE
-
     # FUNKCJA ODPOWIEDZIALNA ZA ROZPOZNAWANIE
     # ZWIERZĄT W ZASIĘGU WIDZENIA
     def patrze(self):
         if not self.czyZyje:
             return
 
-        here = self.gdzieJest()  # pole
+        here = self.gdzieJest()
         self.arr_zwierz = []
 
         # WIDOK W LEWO
@@ -96,6 +110,9 @@ class Zwierze:
     def zezera(self):
         pass
 
+    def __str__(self):
+        return "Aktualny cel: \n" + str(self.cel)
+
 
 class Wilk(Zwierze):
 
@@ -103,7 +120,6 @@ class Wilk(Zwierze):
         if plec == None:
             plec = choice(dostepnePlci)
         Zwierze.__init__(self, plec, zasiegWidzenia)
-        print(plec)
 
     # ZDECHNIĘCIE WILKA
     def __del__(self):
@@ -111,13 +127,13 @@ class Wilk(Zwierze):
 
     def __str__(self):
         return "Poziom tłuszczu wilka: " + str(self.poziomTluszczu) + \
-               "\nx: " + str(self.pole.x) + "    y: " + str(self.pole.y) + "\n"
+               "\nx: " + str(self.pole.x) + "    y: " + str(
+            self.pole.y) + "\n plec: " + self.plec + "\n" + super().__str__()
 
     # ZJEDZENIE ZAJĄCA
     def zezera(self, zajac):
-        self.poziomTluszczu += 10
+        self.poziomTluszczu += 15
         zajac.__del__()
-        super.zezera()
 
     # PORUSZANIE SIĘ (spalanie tłuszczu przy ruchu)
     def ruchZwierza(self, pole):
@@ -136,9 +152,19 @@ class Wilk(Zwierze):
                     if isinstance(zwierze, Zajac):
                         dostepneCele.append(Cel(self.pole, widok.pole))
             pass
+        #
+        # # poziom tłuszczu > 40 && poziom tłuszczu < 60 -> chodź
+        # elif (self.poziomTluszczu > 40 and self.poziomTluszczu <= 60):
+        #
 
-        # poziom tłuszczu > 40 && poziom tłuszczu < 60 -> chodź
-        if (self.poziomTluszczu > 40 and self.poziomTluszczu <= 60):
+        # poziom tłuszczu > 60 -> goń wilka
+        elif (self.poziomTluszczu > 60):
+            for widok in self.arr_zwierz:
+                for zwierze in widok.zwierzetaNaPolu:
+                    if isinstance(zwierze, Wilk):
+                        dostepneCele.append(Cel(self.pole, widok.pole))
+
+        if not dostepneCele:
             if (self.pole.poleZDolu):
                 dostepneCele.append(Cel(self.pole, self.pole.poleZDolu))
             if (self.pole.poleZGory):
@@ -147,13 +173,6 @@ class Wilk(Zwierze):
                 dostepneCele.append(Cel(self.pole, self.pole.poleZLewej))
             if (self.pole.poleZPrawej):
                 dostepneCele.append(Cel(self.pole, self.pole.poleZPrawej))
-
-        # poziom tłuszczu > 60 -> goń wilka
-        if (self.poziomTluszczu > 60):
-            for widok in self.arr_zwierz:
-                for zwierze in widok.zwierzetaNaPolu:
-                    if isinstance(zwierze, Wilk):
-                        dostepneCele.append(Cel(self.pole, widok.pole))
 
         # wyznaczanie trasy do obranego Celu
         min_koszt = 100
@@ -164,14 +183,18 @@ class Wilk(Zwierze):
         for cel in dostepneCele:
             if (cel.koszt == min_koszt):
                 cele_arr.append(cel)
-        self.cel = choice(cele_arr)
-        pass
+        if cele_arr:
+            self.cel = choice(cele_arr)
 
     # WYKOWNYWANIE KROKU W TURZE
     def wykonajRuch(self):
         self.gdzieWykonacRuch()
-        if self.cel.sciezkaDo:
-            self.ruchZwierza(self.cel.sciezkaDo.pop(0))
+        if self.cel:
+            if self.cel.sciezkaDo:
+                ruch = self.cel.sciezkaDo[0]
+                print(str(self.cel.sciezkaDo[0]))
+                self.ruchZwierza(ruch)
+                self.cel.sciezkaDo.remove(ruch)
 
 
 class Zajac(Zwierze):
@@ -189,8 +212,6 @@ class Zajac(Zwierze):
     def zezera(self, ileZajecy):
         self.poziomTluszczu += 10 / ileZajecy
 
-        super().zezera()
-
     # PORUSZANIE SIĘ (spalanie tłuszczu przy ruchu)
     def ruchZwierza(self, pole):
         self.poziomTluszczu -= 3
@@ -198,8 +219,6 @@ class Zajac(Zwierze):
 
     # PATRZENIE CZY ROŚNIE TRAWA NA POLU
     def patrze(self):
-        print("NIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCH")
-
         super().patrze()
         here = self.gdzieJest()
         self.arr_trawa = []
@@ -243,16 +262,7 @@ class Zajac(Zwierze):
                 self.arr_trawa.append(terazSprawdzane)
             terazSprawdzane = terazSprawdzane.poleZDolu
 
-        for widok in self.arr_zwierz:
-            print(str(widok))
-
-        for widok in self.arr_trawa:
-            print(str(widok))
-
-        print("NIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCHNIOCH2")
-        pass
-
-    # TODO: LOGIKA PORUSZANIA SIE
+    # LOGIKA PORUSZANIA SIE
     def gdzieWykonacRuch(self):
         dostepneCele = []
         self.patrze()
@@ -266,21 +276,20 @@ class Zajac(Zwierze):
                         byl_wilk = True
                 if not byl_wilk:
                     dostepneCele.append(Cel(self.pole, widok))
-            pass
 
         # poziom tłuszczu > 40 && poziom tłuszczu < 60 -> chodź
-        if (self.poziomTluszczu > 40 and self.poziomTluszczu <= 60):
-            if (self.pole.poleZDolu):
-                dostepneCele.append(Cel(self.pole, self.pole.poleZDolu))
-            if (self.pole.poleZGory):
-                dostepneCele.append(Cel(self.pole, self.pole.poleZGory))
-            if (self.pole.poleZLewej):
-                dostepneCele.append(Cel(self.pole, self.pole.poleZLewej))
-            if (self.pole.poleZPrawej):
-                dostepneCele.append(Cel(self.pole, self.pole.poleZPrawej))
+        # else:
+        #     if (self.pole.poleZDolu):
+        #         dostepneCele.append(Cel(self.pole, self.pole.poleZDolu))
+        #     if (self.pole.poleZGory):
+        #         dostepneCele.append(Cel(self.pole, self.pole.poleZGory))
+        #     if (self.pole.poleZLewej):
+        #         dostepneCele.append(Cel(self.pole, self.pole.poleZLewej))
+        #     if (self.pole.poleZPrawej):
+        #         dostepneCele.append(Cel(self.pole, self.pole.poleZPrawej))
 
         # poziom tłuszczu > 60 -> goń zająca
-        if (self.poziomTluszczu > 60):
+        elif (self.poziomTluszczu > 60):
             for widok in self.arr_zwierz:
                 byl_wilk = False
                 byla_zajeczyca = False
@@ -292,6 +301,15 @@ class Zajac(Zwierze):
                             byla_zajeczyca = True
                 if (byla_zajeczyca and not byl_wilk):
                     dostepneCele.append(Cel(self.pole, widok.pole))
+        if not dostepneCele:
+            if (self.pole.poleZDolu):
+                dostepneCele.append(Cel(self.pole, self.pole.poleZDolu))
+            if (self.pole.poleZGory):
+                dostepneCele.append(Cel(self.pole, self.pole.poleZGory))
+            if (self.pole.poleZLewej):
+                dostepneCele.append(Cel(self.pole, self.pole.poleZLewej))
+            if (self.pole.poleZPrawej):
+                dostepneCele.append(Cel(self.pole, self.pole.poleZPrawej))
 
         # wyznaczanie trasy do obranego Celu
         min_koszt = 100
@@ -302,11 +320,15 @@ class Zajac(Zwierze):
         for cel in dostepneCele:
             if (cel.koszt == min_koszt):
                 cele_arr.append(cel)
-        self.cel = choice(cele_arr)
+        if cele_arr:
+            self.cel = choice(cele_arr)
         pass
-
 
     def wykonajRuch(self):
         self.gdzieWykonacRuch()
-        if self.cel.sciezkaDo:
-            self.ruchZwierza(self.cel.sciezkaDo.pop(0))
+        if self.cel:
+            if self.cel.sciezkaDo:
+                # print(str(self))
+                ruch = self.cel.sciezkaDo[0]
+                self.ruchZwierza(ruch)
+                self.cel.sciezkaDo.remove(ruch)
