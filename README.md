@@ -1,5 +1,5 @@
 # Wyspa_Wilkow
-This is a simple simulation game written using Python and PyGame.
+This is a simple simulation game written using Python and PyGame as well as Object Oriented Programming.
 It's goal is to simulate behaviour of wolfs and rabbits on an island.
 
 # How it works
