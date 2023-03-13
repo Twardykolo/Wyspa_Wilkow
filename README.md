@@ -8,6 +8,18 @@ In this game we have 3 factors:
  - Rabbits
  - Wolfs
  
+ # Board tiles
+ Board tiles have two possible states:
+  - grass tile
+  - desert tile
+They are a key factor in rabbit simulation because rabbits can feed only on the grass tiles. One a rabbit feeds on grass tile, this tile is replaced with desert tile. Desert tiles can't be fed on but have a possibility to randomly (4-10 ticks) regrow into a grass tile.
+
+# Rabbits
+Rabbits have a fat metter that drops down with every step. This forces them to constantly look for grass tiles to feed and replenish their fat. When male and female rabbits meet and their fat level allows it, they mate and create a new rabbit. Mating also decreases their fat level and because of that we implemented a fat treshold below which they cannot mate. Previously it led to multiple deaths. Speaking of death, rabbits also run away from wolfs whenever they are in range of rabbits sight. This chase often ends with rabbit dying of starvation.
+
+# Wolfs
+Similarly to rabbits, they also have a fat metter that drops with every step. Their only source of food are rabbits meaning that even if they "win" by eating all rabbits, they will eventually starve to death. Wolfs have a bigger range of sight than rabbits. Also similarly to rabbits, they can mate depending on their gender and fat level.
+ 
 # Authors
 <table>
 <tr>
