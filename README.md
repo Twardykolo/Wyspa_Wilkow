@@ -10,8 +10,21 @@ In this game we have 3 factors:
  
  # Board tiles
  Board tiles have two possible states:
-  - grass tile
-  - desert tile
+<table  align="center">
+<tr>
+<td><p align="center">Grass Tile</p></td>
+<td><p align="center">Desert Tile</p></td>
+</tr>
+<tr>
+<td align="center">
+   <img src="PyGameRunda2/Textures/grass.png" alt="Grass Tile" width="80px" height="80px">
+</td>
+<td  align="center">
+   <img src="PyGameRunda2/Textures/sand.png" alt="Desert Tile"  width="80px" height="80px">
+</td>
+</tr>
+</table>
+ 
 They are a key factor in rabbit simulation because rabbits can feed only on the grass tiles. One a rabbit feeds on grass tile, this tile is replaced with desert tile. Desert tiles can't be fed on but have a possibility to randomly (4-10 ticks) regrow into a grass tile.
 
 # Rabbits
