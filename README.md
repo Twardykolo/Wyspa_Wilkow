@@ -29,9 +29,38 @@ They are a key factor in rabbit simulation because rabbits can feed only on the 
 
 # Rabbits
 Rabbits have a fat metter that drops down with every step. This forces them to constantly look for grass tiles to feed and replenish their fat. When male and female rabbits meet and their fat level allows it, they mate and create a new rabbit. Mating also decreases their fat level and because of that we implemented a fat treshold below which they cannot mate. Previously it led to multiple deaths. Speaking of death, rabbits also run away from wolfs whenever they are in range of rabbits sight. This chase often ends with rabbit dying of starvation.
+<table  align="center">
+<tr>
+<td><p align="center">Male Rabbit</p></td>
+<td><p align="center">Female Rabbit</p></td>
+</tr>
+<tr>
+<td align="center">
+   <img src="PyGameRunda2/Textures/bunny.png" alt="Male Rabbit" width="80px" height="80px">
+</td>
+<td  align="center">
+   <img src="PyGameRunda2/Textures/bunnyF.png" alt="Female Rabbit"  width="80px" height="80px">
+</td>
+</tr>
+</table>
 
 # Wolfs
 Similarly to rabbits, they also have a fat metter that drops with every step. Their only source of food are rabbits meaning that even if they "win" by eating all rabbits, they will eventually starve to death. Wolfs have a bigger range of sight than rabbits. Also similarly to rabbits, they can mate depending on their gender and fat level.
+ <table  align="center">
+<tr>
+<td><p align="center">Male Wolf</p></td>
+<td><p align="center">Female Wolf</p></td>
+</tr>
+<tr>
+<td align="center">
+   <img src="PyGameRunda2/Textures/wolf.png" alt="Male Wolf" width="80px" height="80px">
+</td>
+<td  align="center">
+   <img src="PyGameRunda2/Textures/wolfF.png" alt="Female Wolf"  width="80px" height="80px">
+</td>
+</tr>
+</table>
+ 
  
 # Authors
 <table>
